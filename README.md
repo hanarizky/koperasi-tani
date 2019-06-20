@@ -1,2 +1,2 @@
 # koperasi-tani
-A REST API demo for Koperasi Petani Application
+A REST API for Koperasi Petani Application
