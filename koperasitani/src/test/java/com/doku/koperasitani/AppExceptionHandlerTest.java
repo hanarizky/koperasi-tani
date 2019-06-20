@@ -34,9 +34,6 @@ public class AppExceptionHandlerTest extends AbstractJUnit4SpringContextTests {
     @MockBean
     private ProductService productService;
 
-    @MockBean
-    private TransactionService transactionService;
-
     @Test
     public void createMember() throws Exception {
         MvcResult result = this.mockMvc.perform(post("/anggota")
@@ -93,21 +90,5 @@ public class AppExceptionHandlerTest extends AbstractJUnit4SpringContextTests {
         log.info(content);
 
     }
-
-//    @Test
-//    public void createTransaction() throws Exception {
-//        MvcResult result = this.mockMvc.perform(post("/transaksi")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content("{\n" +
-//                        "\t\"id\":\"1\",\n" +
-//                        "\t\"idProduk\":\"10\",\n" +
-//                        "\t\"qty\": \"5\"\n" +
-//                        "\n" +
-//                        "}"))
-//                .andExpect(status().is4xxClientError())
-//                .andDo(print()).andReturn();
-//        String content = result.getResponse().getContentAsString();
-//        log.info(content);
-//    }
 
 }

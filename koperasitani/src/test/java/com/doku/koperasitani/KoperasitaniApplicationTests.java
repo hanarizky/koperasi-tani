@@ -258,6 +258,8 @@ public class KoperasitaniApplicationTests {
         ProductRest product = productService.getProductbyId(transactions.getIdProduk());
         TransactionRest create = transactionService.createTransaction(transactions);
 
+
+        assertThat(create.getNomorTransaksi()).isEqualTo(1);
         assertThat(create.getId()).isEqualTo(transactions.getId());
         assertThat(create.getIdProduk()).isEqualTo(transactions.getIdProduk());
         assertThat(create.getBeliProduk()).isEqualTo(product.getNamaProduk());
@@ -276,10 +278,8 @@ public class KoperasitaniApplicationTests {
     @Test
     public void TransactionGetAll() {
 
-        TransactionTest();
-
         Collection result = transactionService.getTransactionAll();
-        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.size()).isEqualTo(2);
 
         ResponseEntity responseEntity = transactionController.getTransactionAll();
         assertThat(responseEntity.getStatusCode().is2xxSuccessful()).isEqualTo(true);

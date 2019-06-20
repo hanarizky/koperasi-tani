@@ -37,22 +37,13 @@ public class TransactionService {
         int qtyBeli = returnValue.getQty();
 
         MemberRest memberRest = memberService.getMemberById(idAnggota);
-
         if (memberRest == null){
             throw new MemberNotFoundException("ID anggota salah/tidak ada!");
         } else {
-
-            if (transactions == null) {
-                transactions = new HashMap<>();
-                nomorTransaksi = 1;
-            } else {
-                nomorTransaksi += 1;
-            }
-            returnValue.setNomorTransaksi(nomorTransaksi);
             returnValue.setJumlahSimpanan(memberRest.getJumlahSimpanan());
         }
-        ProductRest productRest = productService.getProductbyId(idProduk);
 
+        ProductRest productRest = productService.getProductbyId(idProduk);
         if (productRest == null) {
             throw new ProductNotFoundException("Nama produk salah/tidak tersedia");
         } else {
@@ -69,19 +60,27 @@ public class TransactionService {
 
                     if (simpanan >= total) {
                         sisaSimpanan = simpanan - total;
+
+                        if (transactions == null) {
+                            transactions = new HashMap<>();
+                            nomorTransaksi = 1;
+                        } else {
+                            nomorTransaksi += 1;
+                        }
+
+                        returnValue.setNomorTransaksi(nomorTransaksi);
+                        returnValue.setSisaSimpanan(sisaSimpanan);
+                        memberRest.setJumlahSimpanan(returnValue.getSisaSimpanan());
+                        qtyProduk = qtyProduk - qtyBeli;
+                        productRest.setQtyProduk(qtyProduk);
+                        transactions.put(nomorTransaksi,returnValue);
                     } else {
                         throw new MemberNotFoundException("Simpanan anggota kurang!");
                     }
-
-                    returnValue.setSisaSimpanan(sisaSimpanan);
-                    memberRest.setJumlahSimpanan(returnValue.getSisaSimpanan());
-                    qtyProduk = qtyProduk - qtyBeli;
-                    productRest.setQtyProduk(qtyProduk);
                 } else {
                     throw new ProductNotFoundException("Stok produk kurang!");
                 }
         }
-        transactions.put(nomorTransaksi,returnValue);
         return returnValue;
     }
 
